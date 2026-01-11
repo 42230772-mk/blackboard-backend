@@ -1,0 +1,14 @@
+# Uploaded files (never commit)
+uploads/
+uploads/**
+
+# Secrets / local configs (if you have any)
+.env
+.env.*
+config.php
+*.local.php
+
+# OS / editor junk
+Thumbs.db
+.DS_Store
+*.log
