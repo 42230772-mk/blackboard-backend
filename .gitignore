@@ -1,14 +1,12 @@
-# Uploaded files (never commit)
-uploads/
-uploads/**
+# Node
+node-api/node_modules/
+node-api/.env
+node-api/.env.*
+node-api/npm-debug.log*
+node-api/yarn-debug.log*
+node-api/yarn-error.log*
+node-api/pnpm-debug.log*
+node-api/.DS_Store
 
-# Secrets / local configs (if you have any)
-.env
-.env.*
-config.php
-*.local.php
-
-# OS / editor junk
-Thumbs.db
-.DS_Store
+# PHP / misc
 *.log
