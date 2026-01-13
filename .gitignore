@@ -11,3 +11,4 @@ node-api/.DS_Store
 # PHP / misc
 *.log
 config.php
+uploads/
