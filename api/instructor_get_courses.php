@@ -4,7 +4,7 @@
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json");
 
 session_start();
@@ -14,7 +14,22 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     exit;
 }
 
-if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "instructor") {
+$instructorId = 0;
+
+// ✅ 1) Prefer session (normal behavior)
+if (isset($_SESSION["user_id"]) && ($_SESSION["role"] ?? "") === "instructor") {
+    $instructorId = (int)$_SESSION["user_id"];
+} else {
+    // ✅ 2) Fallback: allow POST body { instructor_id: ... }
+    $raw = file_get_contents("php://input");
+    $data = json_decode($raw, true);
+
+    if (isset($data["instructor_id"])) {
+        $instructorId = (int)$data["instructor_id"];
+    }
+}
+
+if ($instructorId <= 0) {
     http_response_code(401);
     echo json_encode([
         "success" => false,
@@ -49,7 +64,6 @@ try {
         "courses" => $courses
     ]);
     exit;
-
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([
@@ -58,4 +72,3 @@ try {
     ]);
     exit;
 }
-?>
